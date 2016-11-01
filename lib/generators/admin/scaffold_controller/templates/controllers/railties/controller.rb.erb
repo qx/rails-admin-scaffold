@@ -27,12 +27,16 @@ class <%= prefixed_controller_class_name %>Controller < <%= parent_controller_cl
   # POST <%= prefixed_route_url %>
   def create
     @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
-
-    if @<%= orm_instance.save %>
-      redirect_to <%= "[:#{prefix}, @#{singular_table_name}]" %>, notice: <%= "'#{human_name} was successfully created.'" %>
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @<%= orm_instance.save %>
+        format.html { redirect_to <%= "[:#{prefix}, @#{singular_table_name}]" %>, notice: <%= "'#{human_name} was successfully created.'" %> }
+        format.json { render action: 'show', status: :created, location: <%= "[:#{prefix}, @#{singular_table_name}] %> }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity }
+      end
     end
+
   end
 
   # PATCH/PUT <%= prefixed_route_url %>/1
