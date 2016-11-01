@@ -34,7 +34,7 @@ class <%= prefixed_controller_class_name %>Controller < <%= parent_controller_cl
     respond_to do |format|
       if @<%= orm_instance.save %>
         format.html { redirect_to <%= "[:#{prefix}, @#{singular_table_name}]" %>, notice: <%= "'#{human_name} was successfully created.'" %> }
-        format.json { render action: 'show', status: :created, location: <%= "@#{singular_table_name}" %> }
+        format.json { render action: 'show', status: :created, location: <%= "[:#{prefix}, @#{singular_table_name}]" %> }
       else
         format.html { render action: 'new' }
         format.json { render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity }
