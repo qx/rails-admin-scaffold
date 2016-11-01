@@ -30,7 +30,6 @@ class <%= prefixed_controller_class_name %>Controller < <%= parent_controller_cl
 
     if @<%= orm_instance.save %>
       redirect_to <%= "[:#{prefix}, @#{singular_table_name}]" %>, notice: <%= "'#{human_name} was successfully created.'" %>
-      render action: 'show', status: :created, location: <%= "[:#{prefix}, @#{singular_table_name}]" %>                                                            
     else
       render action: 'new'
     end
